@@ -28,10 +28,24 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configurations/:/configurations"
 
+  cloudchampion-warehouse-dapr:
+    command: ["./daprd",
+      "-app-id", "cloudchampion-warehouse",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configurations/config.yaml"
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configurations/:/configurations"
+
   rabbitmq:
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      - "RABBITMQ_DEFAULT_USER:guest"
+      - "RABBITMQ_DEFAULT_PASS:guest"
   
   redis:
     ports:

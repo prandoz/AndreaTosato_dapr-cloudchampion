@@ -32,11 +32,28 @@ services:
     network_mode: "service:cloudchampion-order"
     depends_on:
       - cloudchampion-order
+  
+  cloudchampion-warehouse:
+    container_name: cloudchampion-warehouse
+    image: cloudchampion/warehouse
+    build:
+      context: .
+      dockerfile: Services/CloudChampion.warehouse/Dockerfile
+    depends_on:
+      - rabbitmq
+      - redis
+  
+  cloudchampion-warehouse-dapr:
+    container_name: cloudchampion-warehouse-dapr
+    image: "daprio/daprd:1.2.0"
+    network_mode: "service:cloudchampion-warehouse"
+    depends_on:
+      - cloudchampion-warehouse
 
   #Pub-Sub
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3-management
 
   #State
   redis:
